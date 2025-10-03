@@ -1,4 +1,5 @@
-import sampleData from "@/db/sample-data";
+// import sampleData from "@/db/sample-data";
+import { getLatestProducts } from "@/lib/product.actions";
 import ProductList from "@/components/product-list";
 import ProductCarousel from "@/components/product-carousel";
 import {
@@ -8,6 +9,7 @@ import {
 
 const Homepage = async () => {
   const featuredProducts = await getFeaturedProducts();
+  const latestProducts = await getLatestProducts();
   return (
     <>
     <div>
@@ -45,7 +47,7 @@ const Homepage = async () => {
           Product List
         </h2>
         <ProductList
-          data={sampleData.products}
+          data={latestProducts}
           // title="Newest Arrivals"
           limit={4}
         />
