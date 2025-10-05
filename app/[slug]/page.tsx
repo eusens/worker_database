@@ -2,8 +2,9 @@ export const runtime = "edge"; // ✅ tell Next.js + Cloudflare to use Edge runt
 
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import sampleData from "@/db/sample-data";
+// import sampleData from "@/db/sample-data";
 import Rating from "@/components/rating";
+import { getProductBySlug } from "@/lib/product.actions";
 
 interface PageProps {
   params: Promise<{ slug: string }>; // params are async in App Router
@@ -20,7 +21,9 @@ export default async function DynamicPage({ params }: PageProps) {
   }
 
   // Find product by slug
-  const product = sampleData.products.find((p) => p.slug === slug);
+  // const product = sampleData.products.find((p) => p.slug === slug);
+  const product = await getProductBySlug(slug);
+  if (!product) notFound();
 
   if (!product) {
     return (
@@ -61,10 +64,10 @@ export default async function DynamicPage({ params }: PageProps) {
       <div>
         <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
         <p className="text-gray-600 mb-4">{product.category}</p>
-        <Rating value={product.rating} />
+        <Rating value={Number(product.rating)} />
         <p className="text-gray-500 mb-6">{product.numReviews} reviews</p>
 
-        <p className="text-2xl font-semibold mb-4">${product.price}</p>
+        <p className="text-2xl font-semibold mb-4">${Number(product.price)}</p>
         {product.stock > 0 ? (
           <p className="text-green-600 font-medium mb-4">In Stock</p>
         ) : (
