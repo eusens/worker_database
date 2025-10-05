@@ -6,14 +6,16 @@ import Rating from "./rating";
 const ProductCard = ({ product }: { product: any }) => {
   return (
     <Card className="w-full max-s-sm">
-      <CardHeader className="p-0 item-center">
+      <CardHeader className="p-0 relative aspect-square bg-gray-50 flex items-center justify-center">
+
         <Link href={`/${product.slug}`}>
-          <Image
-            src={product.images[0]}
+        <Image
+            src={product.images?.[0] || "/placeholder.png"}
             alt={product.name}
-            width={300}
-            height={300}
-            priority={true}
+            fill
+            sizes="(max-width: 768px) 100vw, 25vw"
+            className="object-cover hover:scale-105 transition-transform duration-300"
+            priority
           />
         </Link>
       </CardHeader>
