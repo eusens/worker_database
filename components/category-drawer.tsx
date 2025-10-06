@@ -7,7 +7,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { getAllCategories } from "@/lib/getCategories";
+// import { getAllCategories } from "@/lib/getCategories";
+import { getAllCategories } from "@/lib/product.actions";
 import { MenuIcon } from 'lucide-react';
 import Link from 'next/link';
 
@@ -34,7 +35,7 @@ const CategoryDrawer = async () => {
               >
                 <DrawerClose asChild>
                   <Link href={`/search?category=${x.category}`}>
-                    {x.category} ({x._count})
+                    {x.category} ({x.count})
                   </Link>
                 </DrawerClose>
               </Button>

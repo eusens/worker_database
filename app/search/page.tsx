@@ -1,8 +1,9 @@
 import ProductCard from '@/components/product-card';
 import { Button } from '@/components/ui/button';
 import Pagination1 from '@/components/Pagination1';
-import { getAllCategories } from '@/lib/getCategories';
-import { getAllProducts } from '@/lib/getAllProducts';
+// import { getAllCategories } from '@/lib/getCategories';
+import { getAllCategories , getAllProducts } from "@/lib/product.actions";
+// import { getAllProducts } from '@/lib/getAllProducts';
 import Link from 'next/link';
 
 export const runtime = 'edge';

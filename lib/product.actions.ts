@@ -102,3 +102,24 @@ export async function getProductBySlug(slug: string) {
   });
 }
 
+// Get all categories
+type CategoryCount = {
+  category: string;
+  _count: {
+    category: number;
+  };
+};
+
+export async function getAllCategories() {
+  const data = (await prisma.product.groupBy({
+    by: ["category"],
+    _count: {
+      category: true,
+    },
+  })) as CategoryCount[];
+
+  return data.map((item) => ({
+    category: item.category,
+    count: item._count.category,
+  }));
+}
