@@ -123,3 +123,28 @@ export async function getAllCategories() {
     count: item._count.category,
   }));
 }
+
+export async function getRelatedProducts(category: string, excludeSlug: string) {
+  const products = await prisma.product.findMany({
+    where: {
+      category,
+      NOT: {
+        slug: excludeSlug,
+      },
+    },
+    take: 4, // show 4 related items
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      price: true,
+      images: true,
+      rating: true,
+      stock: true,
+      brand: true,
+    },
+  });
+
+  return convertToPlainObject(products);
+}
+

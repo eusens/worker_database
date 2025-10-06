@@ -1,22 +1,22 @@
 // import sampleData from "@/db/sample-data";
 import { getLatestProducts } from "@/lib/product.actions";
 import ProductList from "@/components/product-list";
-import ProductCarousel from "@/components/product-carousel";
-import {
-  // getLatestProducts,
-  getFeaturedProducts,
-} from '@/lib/getFeaturedProducts';
+// import ProductCarousel from "@/components/product-carousel";
+// import {
+//   // getLatestProducts,
+//   getFeaturedProducts,
+// } from '@/lib/getFeaturedProducts';
 
 const Homepage = async () => {
-  const featuredProducts = await getFeaturedProducts();
+  // const featuredProducts = await getFeaturedProducts();
   const latestProducts = await getLatestProducts();
   return (
     <>
-    <div>
+    {/* <div>
          {featuredProducts.length > 0 && (
            <ProductCarousel data={featuredProducts} />
          )}
-      </div>
+      </div> */}
       {/* Company Introduction */}
       <section className="max-w-4xl mx-auto px-6 py-12 text-center">
         <h2 className="text-3xl font-bold text-gray-900 mb-6">
