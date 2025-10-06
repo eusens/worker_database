@@ -7,6 +7,8 @@ import { getAllCategories , getAllProducts } from "@/lib/product.actions";
 import Link from 'next/link';
 
 export const runtime = 'edge';
+// 🟢 Revalidate every 7 day
+export const revalidate = 604800
 
 const prices = [
   { name: '$1 to $50', value: '1-50' },
