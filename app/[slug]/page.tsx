@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Rating from "@/components/rating";
 import ProductCard from "@/components/product-card";
+import IndustriesSection from "@/components/SellProducts";
 import { getProductBySlug, getRelatedProducts } from "@/lib/product.actions";
 
 interface PageProps {
@@ -105,8 +106,10 @@ export default async function DynamicPage({ params }: PageProps) {
             className="prose"
             dangerouslySetInnerHTML={{ __html: product.conditions }}
           />
+          <IndustriesSection />
         </div>
       )}
+      
 
       {/* ✅ Related Products */}
       {relatedProducts?.length > 0 && (
