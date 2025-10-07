@@ -27,7 +27,7 @@ const industries = [
   },
   {
     name: "Servo Motors & Drives",
-    image: "/images/Servo Motors.webp",
+    image: "/images/servomotors.webp",
     description: "Yaskawa,Siemens,Allen Bradley.Panasonic.",
   },
   {
