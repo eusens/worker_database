@@ -2,6 +2,7 @@ export const runtime = "edge"; // ✅ tell Next.js + Cloudflare to use Edge runt
 
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 import Rating from "@/components/rating";
 import ProductCard from "@/components/product-card";
 import IndustriesSection from "@/components/SellProducts";
@@ -78,12 +79,11 @@ export default async function DynamicPage({ params }: PageProps) {
             dangerouslySetInnerHTML={{ __html: product.description }}
           />
 
-          <button
-            disabled={product.stock === 0}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700 disabled:bg-gray-400"
-          >
-            Contact us
-          </button>
+             <Link href="/contact">
+              <button className="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700">
+                Contact
+              </button>
+            </Link>
         </div>
       </div>
 
