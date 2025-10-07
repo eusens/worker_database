@@ -106,7 +106,7 @@ export default async function DynamicPage({ params }: PageProps) {
             className="prose"
             dangerouslySetInnerHTML={{ __html: product.conditions }}
           />
-          <IndustriesSection />
+          {/* <IndustriesSection /> */}
         </div>
       )}
       
