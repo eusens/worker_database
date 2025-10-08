@@ -99,6 +99,8 @@ export async function getAllProducts({
 export async function getProductBySlug(slug: string) {
   return await prisma.product.findFirst({
     where: { slug: slug },
+    // ✅ Add cache
+    cacheStrategy: { ttl: 180 }, // cache 3 minutes
   });
 }
 
@@ -143,6 +145,8 @@ export async function getRelatedProducts(category: string, excludeSlug: string) 
       stock: true,
       brand: true,
     },
+    // ✅ Add cache
+    cacheStrategy: { ttl: 180 }, // cache 3 minutes
   });
 
   return convertToPlainObject(products);
