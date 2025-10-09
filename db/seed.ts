@@ -1,30 +1,51 @@
 import { PrismaClient } from '@prisma/client';
 import sampleData from './sample-data';
-// import { hash } from '@/lib/encrypt';
+
+const prisma = new PrismaClient();
 
 async function main() {
-  const prisma = new PrismaClient();
-  await prisma.product.deleteMany();
-//   await prisma.account.deleteMany();
-//   await prisma.session.deleteMany();
-//   await prisma.verificationToken.deleteMany();
-//   await prisma.user.deleteMany();
+  console.log("⏳ Seeding products...");
 
-  await prisma.product.createMany({ data: sampleData.products });
-//   const users = [];
-//   for (let i = 0; i < sampleData.users.length; i++) {
-//     users.push({
-//       ...sampleData.users[i],
-//       password: await hash(sampleData.users[i].password),
-//     });
-//     console.log(
-//       sampleData.users[i].password,
-//       await hash(sampleData.users[i].password)
-//     );
-//   }
-//   await prisma.user.createMany({ data: users });
+  for (const product of sampleData.products) {
+    // check if product with same slug exists
+    const existing = await prisma.product.findUnique({
+      where: { slug: product.slug },
+    });
 
-  console.log('Database seeded successfully!');
+    if (existing) {
+      await prisma.product.update({
+        where: { slug: product.slug },
+        data: {
+          name: product.name,
+          category: product.category,
+          description: product.description,
+          details: product.details,
+          brand: product.brand,
+          price: product.price,
+          stock: product.stock,
+          isFeatured: product.isFeatured,
+          banner: product.banner,
+          rating: product.rating,
+          numReviews: product.numReviews,
+          conditions: product.conditions,
+          images: product.images,
+        },
+      });
+      console.log(`🔁 Updated: ${product.slug}`);
+    } else {
+      await prisma.product.create({ data: product });
+      console.log(`✅ Created: ${product.slug}`);
+    }
+  }
+
+  console.log("🎉 Seeding complete!");
 }
 
-main();
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
