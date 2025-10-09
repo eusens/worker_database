@@ -7,41 +7,6 @@ import Rating from "@/components/rating";
 import ProductCard from "@/components/product-card";
 import IndustriesSection from "@/components/SellProducts";
 import { getProductBySlug, getRelatedProducts } from "@/lib/product.actions";
-import type { Metadata } from "next";
-
-// ✅ Dynamic SEO metadata
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const { slug } = params;
-  const product = await getProductBySlug(slug);
-
-  if (!product) {
-    return {
-      title: "Product Not Found - Industrial Automation Components",
-      description: "The product you are looking for could not be found.",
-    };
-  }
-
-  const shortDescription =
-    product.description.length > 150
-      ? product.description.substring(0, 150) + "..."
-      : product.description;
-
-  return {
-    title: `${product.name}, ${product.category} - Industrial Automation Components`,
-    description: shortDescription,
-    openGraph: {
-      title: `${product.name}, ${product.category} - Industrial Automation Components`,
-      description: shortDescription,
-      images: product.images?.length ? [{ url: product.images[0] }] : [],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: `${product.name}, ${product.category}`,
-      description: shortDescription,
-      images: product.images?.length ? [product.images[0]] : [],
-    },
-  };
-}
 
 interface PageProps {
   params: Promise<{ slug: string }>;
