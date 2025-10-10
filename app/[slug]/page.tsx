@@ -1,4 +1,4 @@
-export const runtime = "edge"; // ✅ tell Next.js + Cloudflare to use Edge runtime
+export const runtime = "edge"; // ✅ For Cloudflare Pages Edge Runtime
 
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -7,12 +7,69 @@ import Rating from "@/components/rating";
 import ProductCard from "@/components/product-card";
 import IndustriesSection from "@/components/SellProducts";
 import { getProductBySlug, getRelatedProducts } from "@/lib/product.actions";
+import type { Metadata } from "next";
 
+const EXCLUDED_SLUGS = ["about", "contact"];
+
+// 🧠 Dynamic SEO Metadata
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+
+  if (EXCLUDED_SLUGS.includes(slug)) {
+    return {
+      title: "Industrial Automation Components",
+      description: "",
+    };
+  }
+
+  const product = await getProductBySlug(slug);
+
+  if (!product) {
+    return {
+      title: "Industrial Automation Components",
+      description: "",
+    };
+  }
+
+  // 🏷️ Build SEO Title and Description
+  const metaTitle = `${product.name} | ${product.category} | Industrial Automation Components`;
+  const metaDescription = product.description
+    ? product.description.length > 160
+      ? product.description.slice(0, 157) + "..."
+      : product.description
+    : "Explore industrial automation components from top brands.";
+
+  const metaImage =
+    Array.isArray(product.images) && product.images.length > 0
+      ? product.images[0]
+      : undefined;
+
+  return {
+    title: metaTitle,
+    description: metaDescription,
+    openGraph: {
+      title: metaTitle,
+      description: metaDescription,
+      type: "website",
+      images: metaImage ? [{ url: metaImage }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: metaTitle,
+      description: metaDescription,
+      images: metaImage ? [metaImage] : undefined,
+    },
+  };
+}
+
+// 🧱 Product Detail Page
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
-
-const EXCLUDED_SLUGS = ["about", "contact"];
 
 export default async function DynamicPage({ params }: PageProps) {
   const { slug } = await params;
@@ -25,7 +82,7 @@ export default async function DynamicPage({ params }: PageProps) {
   const product = await getProductBySlug(slug);
   if (!product) return notFound();
 
-  // 🟢 Fetch related products (same category)
+  // 🟢 Fetch related products
   const relatedProducts = await getRelatedProducts(product.category, slug);
 
   return (
@@ -66,7 +123,9 @@ export default async function DynamicPage({ params }: PageProps) {
           <Rating value={Number(product.rating)} />
           <p className="text-gray-500 mb-6">{product.numReviews} reviews</p>
 
-          <p className="text-2xl font-semibold mb-4">${Number(product.price)}</p>
+          <p className="text-2xl font-semibold mb-4">
+            ${Number(product.price)}
+          </p>
           {product.stock > 0 ? (
             <p className="text-green-600 font-medium mb-4">In Stock</p>
           ) : (
