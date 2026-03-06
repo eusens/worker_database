@@ -50,3 +50,6 @@ next-env.d.ts
 
 /db/sampledata.ts
 /db/seed.ts
+/db/sample-data.json
+# 确保 seed.ts 也被忽略
+/db/seed.ts
