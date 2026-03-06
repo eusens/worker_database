@@ -1,19 +1,18 @@
-import sampleData from "@/db/sample-data";
+// lib/getCategories.ts
+import { prisma } from '@/lib/prisma';
 
-// Group products by category
-export function getAllCategories() {
-  const categoryMap: Record<string, number> = {};
-
-  sampleData.products.forEach((product) => {
-    if (!categoryMap[product.category]) {
-      categoryMap[product.category] = 0;
-    }
-    categoryMap[product.category] += 1;
+export async function getAllCategories() {
+  // 从数据库获取所有分类及计数
+  const categories = await prisma.product.groupBy({
+    by: ['category'],
+    _count: {
+      category: true,
+    },
   });
 
-  // Convert to array like Prisma’s groupBy
-  return Object.entries(categoryMap).map(([category, count]) => ({
-    category,
-    _count: count,
+  // 转换为需要的格式
+  return categories.map((item) => ({
+    category: item.category,
+    _count: item._count.category,
   }));
 }
