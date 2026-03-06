@@ -7,7 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { getAllCategories } from '@/lib/getCategories';
+// import { getAllCategories } from '@/lib/getCategories';
+import { getAllCategories } from '@/lib/product.actions';
 import { SearchIcon } from 'lucide-react';
 
 const Search = async () => {

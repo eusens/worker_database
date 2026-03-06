@@ -53,3 +53,5 @@ next-env.d.ts
 /db/sample-data.json
 # 确保 seed.ts 也被忽略
 /db/seed.ts
+# 忽略备份的 node_modules 文件夹
+/node_modules_broken/
