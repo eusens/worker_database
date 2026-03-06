@@ -1,13 +1,7 @@
 // lib/getFeaturedProducts.ts
 import { prisma } from '@/lib/prisma';
-import { Product } from '@prisma/client';
 
-type FeaturedProduct = Omit<Product, 'price' | 'rating'> & {
-  price: string;
-  rating: string;
-};
-
-export async function getFeaturedProducts(): Promise<FeaturedProduct[]> {
+export async function getFeaturedProducts() {
   const featuredProducts = await prisma.product.findMany({
     where: {
       isFeatured: true,
@@ -15,5 +9,5 @@ export async function getFeaturedProducts(): Promise<FeaturedProduct[]> {
     take: 2,
   });
 
-  return featuredProducts as FeaturedProduct[];
+  return featuredProducts;
 }
