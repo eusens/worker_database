@@ -13,10 +13,10 @@ export async function GET() {
       slug: true,
       createdAt : true,
     },
-    cacheStrategy: {
-      ttl: 3600, // cache 1 hour in Prisma Accelerate
-      swr: 86400, // stale while revalidating for 1 day
-    },
+    // cacheStrategy: {
+    //   ttl: 3600, // cache 1 hour in Prisma Accelerate
+    //   swr: 86400, // stale while revalidating for 1 day
+    // },
   });
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://panasonicservomotor.com";
